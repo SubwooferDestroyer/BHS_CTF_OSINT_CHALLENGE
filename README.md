@@ -1,0 +1,2 @@
+# BHS_CTF_OSINT_CHALLENGE
+OSINT Challenge for BHS
