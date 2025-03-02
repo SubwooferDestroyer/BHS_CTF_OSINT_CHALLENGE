@@ -1,0 +1,35 @@
+
+.main-content {
+    width: 50%;
+    margin: auto;
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+#wrapper {
+    margin-top: 2rem;
+}
+
+.ctf-challenge {
+    border: 2px solid black;
+    border-radius: 1rem;
+    padding: 10px 10px 40px 10px;
+    margin-bottom: 5rem;
+}
+
+/* Button Link Styling */
+.button-link {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button-link:hover {
+    background-color: #2980b9;
+    color: #ffffff;
+}

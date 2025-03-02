@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} OSINT Challenge {% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/ctf_logo.jpeg' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ctf_start.css' %}">
+
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'htmx/htmx.min.js' %}"></script>
+    <script src="{% static 'js/global.js' %}"></script>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    <div class="main-content">
+        <div id="wrapper">
+            <div class="ctf-challenge">
+                <h1> BHS CTF - OSINT Challenge </h1>
+                <p> Use available information to find the flag. </p>
+                <a href="base.html" class="button-link"> Start Challenge </a>
+            </div>
+
+            <div class="ctf-challenge">
+                <h1> BHS CTF - SQL Injection Challenge </h1>
+                <p> Use SQL Injection to login as an administrator, then find the flag. </p>
+                <a href="/start" class="button-link"> Start Challenge </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
