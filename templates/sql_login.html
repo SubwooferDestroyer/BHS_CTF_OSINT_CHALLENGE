@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+    <title>Login</title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">Back to Home</a>
+    </div>
+
+    <div class="login">
+        <h1>Login</h1>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+    <div class="error-message {% if error_message %}show{% endif %}">
+        <button onclick="this.parentElement.style.display='none'">&times;</button>
+        {{ error_message }}
+    </div>
+
+    <div class="objective">
+        <h1>Challenge Objective</h1>
+        <p>Your objective is to use SQL Injection to gain access to the system as a privileged user.</p>
+    </div>
+</body>
+</html>

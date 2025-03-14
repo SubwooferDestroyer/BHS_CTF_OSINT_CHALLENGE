@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Challenge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+</head>
+<body>
+    <div class="main-content">
+        <div id="wrapper">
+            <div class="ctf-challenge">
+                <h1> BHS CTF - OSINT Challenge </h1>
+                <p> Use available information to find the flag. </p>
+                <a href="{{ url_for('osint_login') }}"> Start Challenge </a>
+            </div>
+
+            <div class="ctf-challenge">
+                <h1> BHS CTF - SQL Injection Challenge </h1>
+                <p> Use SQL Injection to login as an administrator, then find the flag. </p>
+                <a href="{{ url_for('sql_login') }}"> Start Challenge </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

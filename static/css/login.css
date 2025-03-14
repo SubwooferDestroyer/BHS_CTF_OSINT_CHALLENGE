@@ -1,0 +1,161 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #333;
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navbar .logo {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .logo:hover {
+    background-color: #555;
+}
+
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 80px;
+    width: 40%;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.objective {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.objective p {
+    color: #555;
+    font-size: 14px;
+    max-width: 100%;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .login {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .objective {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .navbar {
+        padding: 15px;
+    }
+
+    .navbar .logo {
+        font-size: 18px;
+    }
+}
+
+.error-message {
+    display: none;
+    padding: 15px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    text-align: center;
+    position: relative;
+    width: 40%;
+    box-sizing: border-box;
+    margin-top: 15px;
+}
+
+.error-message button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.error-message.show {
+    display: block;
+}

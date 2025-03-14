@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container profile">
+    <div class="profile-header profile-image">
+        <div>
+        {% if profile_picture %}
+            <img src="{{ url_for('static', filename='profile_pics/' + profile_picture) }}" alt="User Icon">
+        {% else %}
+            <img src="{{ url_for('static', filename='profile_pics/random_pic1.jpg') }}" alt="Default User Icon">
+        {% endif %}
+        </div>
+        <div class="profile-info">
+            <h2>{{ username }}</h2>
+
+            {% if session['username'] != username %}
+                {% if is_following %}
+                    <form action="{{ url_for('unfollow_user', followed_id=user_id) }}" method="POST">
+                        <button type="submit" class="follow-btn unfollow">Unfollow</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('follow_user', followed_id=user_id) }}" method="POST">
+                        <button type="submit" class="follow-btn">Follow</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <h3>Posts</h3>
+    <div class="user-posts">
+        {% for post in posts %}
+            <div class="post">
+                <div class="post-header">
+                    {% if post.profile_pic %}
+                        <img src="{{ url_for('static', filename='profile_pics/' + post.profile_pic) }}" alt="Profile Picture" class="post-profile-pic">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='profile_pics/random_pic1.jpg') }}" alt="Default Profile Picture" class="post-profile-pic">
+                    {% endif %}
+                    <div class="post-title-content">
+                        <h4>{{ post.title }}</h4>
+                        <p><strong>Posted by {{ post.username }} on {{ post.created_at }}</strong></p>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>{{ post.content }}</p>
+                </div>
+            </div>
+        {% else %}
+            <p>No posts to display yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

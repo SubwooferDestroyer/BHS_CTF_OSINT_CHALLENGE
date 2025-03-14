@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if 'username' in session %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    {% endif %}
+    <title>BHS CTF - OSINT Challenge</title>
+    <style>
+        .search-bar input::placeholder {
+            color: #aaa;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <div class="topnav-left">
+            <a href="{{ url_for('home') }}" class="logo">BHS CTF</a>
+        </div>
+        <div class="topnav-right">
+            <form action="{{ url_for('search') }}" method="GET" class="search-bar">
+                <input type="text" name="search" placeholder="Search..."
+                       value="{{ request.args.get('search', '') }}"
+                       onclick="clearSearch(this)">
+                <button type="submit">Search</button>
+            </form>
+            {% if 'username' in session %}
+                <a href="{{ url_for('dashboard') }}" class="link">Dashboard</a>
+                <a href="{{ url_for('profile') }}" class="link">{{ session['username'] }}</a>
+                <a href="{{ url_for('create_post') }}" class="create-post-btn">+</a>
+                <a href="{{ url_for('logout') }}" class="logout link">Logout</a>
+            {% else %}
+                <a href="{{ url_for('sql_login') }}" class="link">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    <script>
+        function clearSearch(input) {
+            if (input.value === input.getAttribute('placeholder')) {
+                input.value = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
