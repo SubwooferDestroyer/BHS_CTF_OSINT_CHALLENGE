@@ -59,7 +59,7 @@ def get_random_posts_excluding_user(user_id, is_admin, limit=5):
     conn = get_db_connection()
     if is_admin:
         posts = conn.execute('''
-            SELECT posts.content, posts.title, users.username, posts.created_at, users.profile_pic, users.is_admin
+            SELECT posts.id, posts.content, posts.title, users.username, posts.created_at, users.profile_pic, users.is_admin
             FROM posts
             JOIN users ON posts.user_id = users.id
             WHERE posts.user_id != ?
@@ -68,7 +68,7 @@ def get_random_posts_excluding_user(user_id, is_admin, limit=5):
         ''', (user_id, limit)).fetchall()
     else:
         posts = conn.execute('''
-            SELECT posts.content, posts.title, users.username, posts.created_at, users.profile_pic
+            SELECT posts.id, posts.content, posts.title, users.username, posts.created_at, users.profile_pic
             FROM posts
             JOIN users ON posts.user_id = users.id
             WHERE posts.user_id != ? AND users.is_admin = 0
@@ -77,6 +77,7 @@ def get_random_posts_excluding_user(user_id, is_admin, limit=5):
         ''', (user_id, limit)).fetchall()
     conn.close()
     return posts
+
 
 
 
@@ -139,12 +140,12 @@ def profile():
 
     conn = get_db_connection()
     posts = conn.execute('''
-            SELECT posts.content, posts.created_at, posts.title, users.username, users.profile_pic
-            FROM posts
-            JOIN users ON posts.user_id = users.id
-            WHERE posts.user_id = ?
-            ORDER BY posts.created_at DESC
-        ''', (user_id,)).fetchall()
+        SELECT posts.id, posts.content, posts.created_at, posts.title, users.username, users.profile_pic
+        FROM posts
+        JOIN users ON posts.user_id = users.id
+        WHERE posts.user_id = ?
+        ORDER BY posts.created_at DESC
+    ''', (user_id,)).fetchall()
 
     user = conn.execute('''
         SELECT username, profile_pic FROM users WHERE id = ?
@@ -246,7 +247,7 @@ def get_posts_from_followed_users(followed_users, is_admin):
     conn = get_db_connection()
     if is_admin:
         posts = conn.execute('''
-            SELECT posts.content, posts.title, users.username, posts.created_at, users.profile_pic, users.is_admin
+            SELECT posts.id, posts.content, posts.title, users.username, posts.created_at, users.profile_pic, users.is_admin
             FROM posts
             JOIN users ON posts.user_id = users.id
             WHERE posts.user_id IN ({}) 
@@ -254,7 +255,7 @@ def get_posts_from_followed_users(followed_users, is_admin):
         '''.format(",".join(map(str, followed_users)))).fetchall()
     else:
         posts = conn.execute('''
-            SELECT posts.content, posts.title, users.username, posts.created_at, users.profile_pic
+            SELECT posts.id, posts.content, posts.title, users.username, posts.created_at, users.profile_pic
             FROM posts
             JOIN users ON posts.user_id = users.id
             WHERE posts.user_id IN ({}) AND users.is_admin = 0
@@ -262,6 +263,74 @@ def get_posts_from_followed_users(followed_users, is_admin):
         '''.format(",".join(map(str, followed_users)))).fetchall()
     conn.close()
     return posts
+
+
+
+@app.route('/post/<int:post_id>', methods=['GET', 'POST'])
+def view_post(post_id):
+    if 'username' not in session:
+        return redirect(url_for('home'))
+
+    # Get post details
+    conn = get_db_connection()
+    post = conn.execute('''
+        SELECT posts.id, posts.title, posts.content, posts.created_at, users.username, users.profile_pic
+        FROM posts
+        JOIN users ON posts.user_id = users.id
+        WHERE posts.id = ?
+    ''', (post_id,)).fetchone()
+
+    if not post:
+        return redirect(url_for('dashboard'))  # Redirect if the post does not exist
+
+    # Get all replies to the post (including nested replies)
+    replies = conn.execute('''
+        SELECT replies.id, replies.content, replies.created_at, users.username, users.profile_pic, replies.parent_reply_id
+        FROM replies
+        JOIN users ON replies.user_id = users.id
+        WHERE replies.post_id = ?
+        ORDER BY replies.created_at DESC
+    ''', (post_id,)).fetchall()
+
+    # Create a list to store nested replies for each reply
+    nested_replies_map = {}
+
+    # For each reply, get nested replies
+    for reply in replies:
+        nested_replies = get_nested_replies(reply['id'])
+        nested_replies_map[reply['id']] = nested_replies
+
+    # Handle new replies
+    if request.method == 'POST':
+        user_id = get_user_id(session['username'])
+        content = request.form['content']
+        parent_reply_id = request.form.get('parent_reply_id')  # Can be None if it's a direct reply to the post
+
+        conn.execute('''
+            INSERT INTO replies (post_id, user_id, content, parent_reply_id)
+            VALUES (?, ?, ?, ?)
+        ''', (post_id, user_id, content, parent_reply_id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('view_post', post_id=post_id))  # Refresh the page to show the new reply
+
+    conn.close()
+
+    return render_template('post.html', post=post, replies=replies, nested_replies_map=nested_replies_map)
+
+
+
+def get_nested_replies(reply_id):
+    conn = get_db_connection()
+    replies = conn.execute('''
+        SELECT replies.id, replies.content, replies.created_at, users.username, users.profile_pic, replies.parent_reply_id
+        FROM replies
+        JOIN users ON replies.user_id = users.id
+        WHERE replies.parent_reply_id = ?
+        ORDER BY replies.created_at DESC
+    ''', (reply_id,)).fetchall()
+    conn.close()
+    return replies
 
 
 @app.route('/follow/<int:followed_id>', methods=['POST'])
@@ -291,6 +360,7 @@ def init_db():
     c.execute('DROP TABLE IF EXISTS users')
     c.execute('DROP TABLE IF EXISTS posts')
     c.execute('DROP TABLE IF EXISTS followers')
+    c.execute('DROP TABLE IF EXISTS replies')
 
     c.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -323,6 +393,20 @@ def init_db():
         )
         ''')
 
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS replies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            post_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            content TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            parent_reply_id INTEGER,  -- This is for nested replies
+            FOREIGN KEY (post_id) REFERENCES posts(id),
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (parent_reply_id) REFERENCES replies(id)
+        );
+    ''')
+
     c.execute("INSERT INTO users (username, password, is_admin) VALUES ('admin', 'adminpassword', 1)",)
     conn.commit()
     conn.close()
@@ -330,27 +414,42 @@ def init_db():
 def create_user(username, password):
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE username = ?", (username,))
+    user = c.fetchone()
+    if user:
+        raise ValueError("Username already exists")
+
+    # If no user found, insert new user
     c.execute('INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)', (username, password, 0))
     conn.commit()
     conn.close()
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
+    error_message = None  # Variable to hold the error message
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        create_user(username, password)
-        session['username'] = username
 
-        selected_profile_pic = random.choice(generic_profile_pics)
+        try:
+            create_user(username, password)  # Try to create the user
+            session['username'] = username
 
-        conn = get_db_connection()
-        conn.execute('UPDATE users SET profile_pic = ? WHERE username = ?', (selected_profile_pic, username))
-        conn.commit()
-        conn.close()
+            selected_profile_pic = random.choice(generic_profile_pics)
 
-        return redirect(url_for('dashboard'))
-    return render_template('create_account.html')
+            conn = get_db_connection()
+            conn.execute('UPDATE users SET profile_pic = ? WHERE username = ?', (selected_profile_pic, username))
+            conn.commit()
+            conn.close()
+
+            return redirect(url_for('dashboard'))
+
+        except ValueError as e:
+            error_message = str(e)  # Catch the ValueError and store the error message
+
+    return render_template('create_account.html', error_message=error_message)
+
 
 
 @app.route('/sql_login', methods=['GET', 'POST'])

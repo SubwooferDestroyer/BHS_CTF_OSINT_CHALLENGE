@@ -1,7 +1,9 @@
 {% extends "base.html" %}
-
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-post.css') }}">
+{% endblock %}
 {% block content %}
-<div class="container">
+<div class="create-post-wrapper">
     <h2>Create a Post</h2>
 
     <form action="{{ url_for('create_post') }}" method="POST">

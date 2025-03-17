@@ -1,0 +1,93 @@
+/* Add a specific container class for create-post to avoid conflicts */
+.create-post-wrapper {
+    background-color: #f9f9f9;  /* Light background to distinguish the page */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 80px auto; /* Add more top margin to separate from navbar */
+}
+
+/* Title */
+.create-post-wrapper h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Form Styles */
+.create-post-wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.create-post-wrapper .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-post-wrapper label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.create-post-wrapper input[type="text"],
+.create-post-wrapper textarea {
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.create-post-wrapper textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.create-post-wrapper input[type="text"]:focus,
+.create-post-wrapper textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Submit Button */
+.create-post-wrapper button.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.create-post-wrapper button.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.create-post-wrapper button.submit-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 768px) {
+    .create-post-wrapper {
+        padding: 20px;
+    }
+
+    .create-post-wrapper h2 {
+        font-size: 1.6rem;
+    }
+
+    .create-post-wrapper button.submit-btn {
+        padding: 10px;
+    }
+}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="post-container">
+        <div class="post">
+            <div class="post-header">
+                <img src="{{ url_for('static', filename='profile_pics/' + post.profile_pic) }}" alt="{{ post.username }}'s profile picture" class="post-profile-pic">
+                <h2>{{ post.title }}</h2>
+                <p class="post-info">
+                    <span class="post-author">{{ post.username }}</span> |
+                    <span class="post-date">{{ post.created_at }}</span>
+                </p>
+            </div>
+            <div class="post-content">
+                <p>{{ post.content }}</p>
+            </div>
+        </div>
+
+        <div class="replies-container">
+            <h3>Replies</h3>
+
+            {% for reply in replies|reverse %}
+                <div class="reply">
+                    <p class="reply-content">{{ reply['content'] }}</p>
+                    <p class="reply-info">Posted by {{ reply['username'] }} on {{ reply['created_at'] }}</p>
+
+                    <!-- Show nested replies if they exist -->
+                    {% if reply['id'] in nested_replies_map %}
+                        <div class="nested-replies">
+                            {% for nested_reply in nested_replies_map[reply['id']]|reverse %}
+                                <div class="nested-reply">
+                                    <p>{{ nested_reply['content'] }}</p>
+                                    <p class="reply-info">Posted by {{ nested_reply['username'] }} on {{ nested_reply['created_at'] }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Nested reply form on the same line -->
+                    <div class="nested-reply-form">
+                        <form action="{{ url_for('view_post', post_id=post.id) }}" method="POST">
+                            <textarea name="content" required placeholder="Write your nested reply here..."></textarea>
+                            <button type="submit">Reply</button>
+                            <input type="hidden" name="parent_reply_id" value="{{ reply['id'] }}">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="reply-form">
+            <h4>Post a reply</h4>
+            <form action="{{ url_for('view_post', post_id=post.id) }}" method="POST">
+                <textarea name="content" required placeholder="Write your reply here..."></textarea>
+                <input type="hidden" name="parent_reply_id" value="">
+                <button type="submit">Reply</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
