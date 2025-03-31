@@ -6,7 +6,192 @@ import os
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'supersecretkeyidunno'
 
+admin_flag = "BHSCTF{5QL_1nject10n_15_C00L}"
+
 generic_profile_pics= []
+
+
+def generate_fake_accounts():
+    # try:
+    #     username = "hacker_no2"
+    #     password = "H@ck3rM@n2025!"
+    #     title = "Encryption Rant"
+    #     content = "You guys ever think about how weak most encryption is? I mean, people still use MD5 for crying out loud! Fun Fact: if you reverse-engineer certain apps, you can find their keys hidden in plain sight. Not that I condone that, of course."
+    #     add_account_information(username, password, title, content)
+    # except Exception as error:
+    #     print(f"Couldn't add user: {error}")
+
+    try:
+        username = "cat_whisperer"
+        password = "M3owM3ow2025"
+        title = "Rescue Cats of the Week!"
+        content = "Check out my two favorite rescues this week: Biscuit and Snowflake! Here's their adoption IDs: 9fa67d2c and b3a4d5e7. Feel free to reach out to me if you're looking for a furry friend. Oh, I also noticed something odd with Snowflake's chip, but that’s a story for another day…"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+
+    try:
+        username = "noodlemaster"
+        password = "Pasta4Life!"
+        title = "Secret Recipe Revealed!"
+        content = "Alright, I've been holding back, but here it is: my famous ramen recipe! Key ingredient: the broth. Add soy sauce, miso paste, and don't forget the exact 11 spices blend. Some say the mix is '43271_abcdefg'. Try figuring out what that means."
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+
+    try:
+        username = "sk8r_boi"
+        password = "Kickflip2024!"
+        title = "Skating Spot Found!"
+        content = "Discovered an awesome spot near the old factory on Elm Street. Kinda sketchy, but no one's bothered me there. Pro tip: you can use the spot to film tricks, especially at around 2:17 PM when the light is just right."
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+
+    try:
+        username = "bookworm"
+        password = "P@perB@ck88"
+        title = "My Favorite Mystery"
+        content = "If you love mystery novels, you have to check out 'The Missing Cypher'. There's a hidden message on page 221 that some say leads to an unsolved real-life puzzle. I cracked part of it but got stuck at 'qw3rty7'. Any codebreakers want to help?"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+
+    try:
+        username = "mike_kadoshnikov"
+        password = "random_p4ssw0rd4CTFEvent!"
+        title = "New CTF Challenge Made!"
+        content = "Hey guys go check out my github to check out this CTF Challenge: https://github.com/SubwooferDestroyer/BHS_CTF_OSINT_CHALLENGE"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "gamer_dude"
+        password = "L33tGam3r!"
+        title = "New High Score!"
+        content = "Just hit a new high score in Alien Invaders, 452,870! Anyone else playing? If you beat me, I’ll share the hidden Easter egg I found on level 23. Hint: look at the 4th asteroid carefully."
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "coffee_addict"
+        password = "BrewM@ster89"
+        title = "Best Coffee Beans?"
+        content = "Morning, everyone! What’s the best brand for brewing the perfect espresso at home? I’ve been experimenting with beans from Ethiopia, and I swear 'H3irloom43' is the secret to that perfect crema. Thoughts?"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "space_enthusiast"
+        password = "St@rgazer42"
+        title = "Amazing View from My Telescope!"
+        content = "Caught a stunning shot of Jupiter last night! The red spot was clearer than ever. Coordinates for the best view: '12h 18m 14s RA, +13° 24′ 36″ Dec'. If you're into astrophotography, it's a must-see."
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "movie_buff"
+        password = "Cin3ph1l3!"
+        title = "Top 10 Underrated Movies"
+        content = "Hey guys, I’ve compiled a list of my top 10 underrated movies. Check out #3: 'Shadows of Tomorrow'—it’s got this hidden clue at 2:34 in the movie, something about 'The Owl.' Anyone else notice that?"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "math_genius"
+        password = "P1ythag0ras"
+        title = "Tough Math Puzzle!"
+        content = "Here’s a fun challenge: Solve x^2 + y^2 = 2025, and you’ll find the coordinates to my secret project. Post your solution below if you get it! Remember: Math is everywhere 📐."
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "chef_expert"
+        password = "Fl@vorB0mb!"
+        title = "Secret Ingredient for My Chili"
+        content = "Alright, chili lovers, here’s the trick: after hours of trial and error, I’ve realized that adding '7 teaspoons' of a secret spice takes it to the next level. It’s something exotic, maybe you'll guess!"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "bird_watcher"
+        password = "Twe3tT00"
+        title = "Rare Bird Sighting!"
+        content = "Spotted a rare Scarlet Macaw during my hike in the Amazon Rainforest. Amazing plumage! Location: '3° 12' N, 60° 01' W'. Make sure to bring binoculars if you're heading that way!"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "crypto_fan"
+        password = "B1tC0!n$"
+        title = "Crypto Wallet Hacked!"
+        content = "I woke up to a nightmare this morning! Someone hacked into my wallet. Pro tip: Never use the password '12345678'. I’ve since switched to something more secure like 'Rng!H4sh2025'. Stay safe out there!"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "fitness_freak"
+        password = "B3nchPr355"
+        title = "New Personal Best!"
+        content = "Just hit a new personal best at the gym today: 350lbs bench press! Anyone else on a fitness journey? Drop your records and let’s push each other to hit those goals! 💪 #FitnessGoals"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+    try:
+        username = "nature_lover"
+        password = "Gr33nP@ssion!"
+        title = "Found an Amazing Waterfall 🌊"
+        content = "Hiked through the forest today and stumbled upon a hidden waterfall. So serene! Coordinates are '47° 36′ 19″ N, 122° 20′ 24″ W'. Pack light, it’s a tough climb to get there!"
+        add_account_information(username, password, title, content)
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+
+
+def add_account_information(username, password, title, content):
+    try:
+        conn = get_db_connection()
+        profile_pic = random.choice(generic_profile_pics)
+
+        # Insert user directly without using session
+        conn.execute('''
+            INSERT INTO users (username, password, profile_pic, is_admin)
+            VALUES (?, ?, ?, ?)
+        ''', (username, password, profile_pic, 0))
+
+        # Get the new user's ID
+        user = conn.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
+        user_id = user['id']
+
+        # Create post
+        conn.execute('''
+            INSERT INTO posts (user_id, title, content)
+            VALUES (?, ?, ?)
+        ''', (user_id, title, content))
+
+        conn.commit()
+
+    except Exception as error:
+        print(f"Couldn't add user: {error}")
+        conn.rollback()
+    finally:
+        conn.close()
+
+
+
 
 def get_db_connection():
     conn = sqlite3.connect('users.db')
@@ -129,12 +314,12 @@ def create_post():
     return render_template('create_post.html')
 
 
-@app.route('/profile')
-def profile():
+@app.route('/profile/<username>')
+def profile(username):
     if 'username' not in session:
         return redirect(url_for('home'))
 
-    user_id = get_user_id(session['username'])
+    user_id = get_user_id(username)
     if not user_id:
         return redirect(url_for('home'))
 
@@ -148,7 +333,7 @@ def profile():
     ''', (user_id,)).fetchall()
 
     user = conn.execute('''
-        SELECT username, profile_pic FROM users WHERE id = ?
+        SELECT id, username, profile_pic FROM users WHERE id = ?
     ''', (user_id,)).fetchone()
 
     if user is None:
@@ -161,10 +346,11 @@ def profile():
     profile_pic = user['profile_pic']
 
     return render_template('profile.html',
-                           username=session['username'],
+                           user=user,
                            posts=posts,
                            profile_picture=profile_pic,
-                           is_following=is_following)
+                           is_following=is_following,
+                           )
 
 
 def get_is_following(user_id, logged_in_user_id):
@@ -192,8 +378,12 @@ def search_posts_and_users(query, is_admin):
     conn = get_db_connection()
 
     # Fetching posts along with the post author's profile picture
-    posts = conn.execute('SELECT content, created_at, user_id, users.username, users.profile_pic FROM posts '
-                         'JOIN users ON posts.user_id = users.id WHERE content LIKE ?', ('%' + query + '%',)).fetchall()
+    posts = conn.execute('''
+            SELECT posts.id, posts.content, posts.created_at, 
+                   posts.user_id, users.username, users.profile_pic 
+            FROM posts 
+            JOIN users ON posts.user_id = users.id 
+            WHERE content LIKE ?''', ('%' + query + '%',)).fetchall()
 
     if is_admin:
         users = conn.execute('SELECT id, username, profile_pic FROM users WHERE username LIKE ?', ('%' + query + '%',)).fetchall()
@@ -241,6 +431,22 @@ def followers():
         conn.close()
 
     return render_template('followers.html', users=users)
+
+
+@app.route('/unfollow/<int:followed_id>', methods=['POST'])
+def unfollow_user(followed_id):
+    if 'username' not in session:
+        return redirect(url_for('home'))
+
+    user_id = get_user_id(session['username'])
+
+    # Remove from followers table
+    conn = get_db_connection()
+    conn.execute('DELETE FROM followers WHERE follower_id = ? AND followed_id = ?', (user_id, followed_id))
+    conn.commit()
+    conn.close()
+
+    return redirect(request.referrer or url_for('dashboard'))
 
 
 def get_posts_from_followed_users(followed_users, is_admin):
@@ -357,10 +563,12 @@ def get_random_posts():
 def init_db():
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
-    c.execute('DROP TABLE IF EXISTS users')
-    c.execute('DROP TABLE IF EXISTS posts')
-    c.execute('DROP TABLE IF EXISTS followers')
-    c.execute('DROP TABLE IF EXISTS replies')
+
+    # Uncomment if need to fix things
+    # c.execute('DROP TABLE IF EXISTS users')
+    # c.execute('DROP TABLE IF EXISTS posts')
+    # c.execute('DROP TABLE IF EXISTS followers')
+    # c.execute('DROP TABLE IF EXISTS replies')
 
     c.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -407,7 +615,22 @@ def init_db():
         );
     ''')
 
-    c.execute("INSERT INTO users (username, password, is_admin) VALUES ('admin', 'adminpassword', 1)",)
+
+    # Create User account if tables got dropped
+    # admin_username = "admin"
+    # admin_password = "adminpassword"
+    # c.execute('INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)', (admin_username, admin_password, 1))
+    # selected_profile_pic = random.choice(generic_profile_pics)
+    # c.execute('UPDATE users SET profile_pic = ? WHERE username = ?', (selected_profile_pic, admin_username))
+    # user = conn.execute('SELECT id FROM users WHERE username = ?', (admin_username,)).fetchone()
+    # user_id = user['id']
+    # # Create post
+    # conn.execute('''
+    #             INSERT INTO posts (user_id, title, content)
+    #             VALUES (?, ?, ?)
+    #         ''', (user_id, 'BHS SQL Injection Flag?!', admin_flag))
+
+
     conn.commit()
     conn.close()
 
@@ -510,7 +733,8 @@ def home():
 
 
 if __name__ == '__main__':
-    init_db()
     generic_profile_pics = load_generic_profile_pics()
+    init_db()
+    generate_fake_accounts()
     app.run(debug=True)
 

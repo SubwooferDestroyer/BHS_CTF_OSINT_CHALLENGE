@@ -38,7 +38,7 @@
             </form>
             {% if 'username' in session %}
                 <a href="{{ url_for('dashboard') }}" class="link">Dashboard</a>
-                <a href="{{ url_for('profile') }}" class="link">{{ session['username'] }}</a>
+                <a href="{{ url_for('profile', username=session['username']) }}" class="link">{{ session['username'] }}</a>
                 <a href="{{ url_for('create_post') }}" class="create-post-btn">+</a>
                 <a href="{{ url_for('logout') }}" class="logout link">Logout</a>
             {% else %}
