@@ -6,7 +6,7 @@ import os
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'supersecretkeyidunno'
 
-admin_flag = "BHSCTF{5QL_1nject10n_15_C00L}"
+admin_flag = "L2CTF{5QL_1nject10n_15_C00L}"
 
 generic_profile_pics= []
 
@@ -630,6 +630,9 @@ def init_db():
     #             VALUES (?, ?, ?)
     #         ''', (user_id, 'BHS SQL Injection Flag?!', admin_flag))
 
+    # DROP the admins posts
+    # admin_id = c.execute('SELECT id FROM users WHERE username = ?', ('admin',)).fetchone()[0]
+    # c.execute('DELETE FROM posts WHERE user_id = ?', (admin_id,))
 
     conn.commit()
     conn.close()
@@ -735,6 +738,6 @@ def home():
 if __name__ == '__main__':
     generic_profile_pics = load_generic_profile_pics()
     init_db()
-    generate_fake_accounts()
+    # generate_fake_accounts()
     app.run(debug=True)
 
