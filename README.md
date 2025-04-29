@@ -1,5 +1,6 @@
-# BHS_CTF_OSINT_CHALLENGE
-OSINT Challenge for BHS
+# BHS_CTF_OSINT_CHALLENGE / SQL_INJECTION_CHALLENGE
+
+This repo includes the SQL Injection Challenge and the OSINT Challenge. The SQL flag is in the python file.
 
 
 
